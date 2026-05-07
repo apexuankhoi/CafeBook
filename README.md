@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://img.icons8.com/color/96/000000/cafe.png" alt="CaféBook Logo">
-  <h1>☕ CaféBook - Coffee Shop Booking & Management</h1>
+  <img src="https://img.icons8.com/color/96/000000/cafe.png" alt="The Hills Coffe Logo">
+  <h1>☕ The Hills Coffe - Coffee Shop Booking & Management</h1>
   <p><em>Hệ thống Quản lý và Đặt bàn Quán Cà phê Trực tuyến</em></p>
   
   [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](#)
@@ -14,7 +14,7 @@
 ---
 
 ## 📖 Giới thiệu
-**CaféBook** là dự án Bài Tập Lớn Web được xây dựng hoàn toàn bằng các công nghệ Front-end cơ bản và MockAPI cho Back-end. Dự án kế thừa thiết kế cao cấp (Premium UI) với phong cách **Glassmorphism** và **Neumorphism**, đáp ứng 100% các yêu cầu kỹ thuật khắt khe.
+**The Hills Coffe** là dự án Bài Tập Lớn Web được xây dựng hoàn toàn bằng các công nghệ Front-end cơ bản và MockAPI cho Back-end. Dự án kế thừa thiết kế cao cấp (Premium UI) với phong cách **Glassmorphism** và **Neumorphism**, đáp ứng 100% các yêu cầu kỹ thuật khắt khe.
 
 ## 🚀 Tính năng nổi bật
 

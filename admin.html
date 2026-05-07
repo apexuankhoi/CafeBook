@@ -1,200 +1,225 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaféBook - Quản trị</title>
-    
+    <title>The Hills Coffe - Quản trị</title>
+
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
     <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body { padding-top: 0; background-color: #fbf2ef; }
+        body {
+            padding-top: 0;
+            background-color: #fbf2ef;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container-fluid p-0">
-    <div class="row g-0">
-        <!-- Sidebar -->
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 admin-sidebar d-flex flex-column">
-            <div class="p-3 d-flex align-items-center gap-2 mt-3 mb-4">
-                <span class="material-symbols-outlined fs-2 text-primary">local_cafe</span>
-                <span class="fs-4 fw-bold text-primary font-playfair">CaféBook</span>
-            </div>
-            <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 px-3" id="menu">
-                <li class="nav-item w-100">
-                    <a href="index.html" class="nav-link nav-link-custom align-middle px-3 py-2 d-flex align-items-center gap-2">
-                        <span class="material-symbols-outlined">home</span> <span class="ms-1 d-none d-sm-inline">Về trang chủ</span>
-                    </a>
-                </li>
-                <li class="nav-item w-100 mt-2">
-                    <a href="#" class="nav-link nav-link-custom active align-middle px-3 py-2 d-flex align-items-center gap-2" id="nav-products">
-                        <span class="material-symbols-outlined">restaurant_menu</span> <span class="ms-1 d-none d-sm-inline">Sản phẩm</span>
-                    </a>
-                </li>
-                <li class="nav-item w-100 mt-2">
-                    <a href="#" class="nav-link nav-link-custom align-middle px-3 py-2 d-flex align-items-center gap-2" id="nav-reservations">
-                        <span class="material-symbols-outlined">event_seat</span> <span class="ms-1 d-none d-sm-inline">Đặt bàn</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Main content -->
-        <div class="col py-4 px-4">
-            
-            <!-- SECTION: SẢN PHẨM -->
-            <div id="section-products">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2 class="mb-1">Quản lý Sản phẩm</h2>
-                        <p class="text-muted mb-0">Thêm, sửa, xóa các món trong thực đơn</p>
-                    </div>
-                    <button class="btn btn-primary-custom" id="btn-add-new" data-bs-toggle="modal" data-bs-target="#productModal">
-                        <span class="material-symbols-outlined align-middle fs-5 me-1">add</span>
-                        Thêm mới
-                    </button>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 admin-sidebar d-flex flex-column">
+                <div class="p-3 d-flex align-items-center gap-2 mt-3 mb-4">
+                    <span class="material-symbols-outlined fs-2 text-primary">local_cafe</span>
+                    <span class="fs-4 fw-bold text-primary font-playfair">The Hills Coffe</span>
                 </div>
+                <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 px-3"
+                    id="menu">
+                    <li class="nav-item w-100">
+                        <a href="index.html"
+                            class="nav-link nav-link-custom align-middle px-3 py-2 d-flex align-items-center gap-2">
+                            <span class="material-symbols-outlined">home</span> <span class="ms-1 d-none d-sm-inline">Về
+                                trang chủ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 mt-2">
+                        <a href="#"
+                            class="nav-link nav-link-custom active align-middle px-3 py-2 d-flex align-items-center gap-2"
+                            id="nav-products">
+                            <span class="material-symbols-outlined">restaurant_menu</span> <span
+                                class="ms-1 d-none d-sm-inline">Sản phẩm</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 mt-2">
+                        <a href="#"
+                            class="nav-link nav-link-custom align-middle px-3 py-2 d-flex align-items-center gap-2"
+                            id="nav-reservations">
+                            <span class="material-symbols-outlined">event_seat</span> <span
+                                class="ms-1 d-none d-sm-inline">Đặt bàn</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                <!-- Dashboard stats -->
-                <div class="row g-4 mb-4">
-                    <div class="col-md-4">
-                        <div class="neu-card p-4">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Tổng sản phẩm</span>
-                                <span class="material-symbols-outlined text-primary">inventory_2</span>
+            <!-- Main content -->
+            <div class="col py-4 px-4">
+
+                <!-- SECTION: SẢN PHẨM -->
+                <div id="section-products">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2 class="mb-1">Quản lý Sản phẩm</h2>
+                            <p class="text-muted mb-0">Thêm, sửa, xóa các món trong thực đơn</p>
+                        </div>
+                        <button class="btn btn-primary-custom" id="btn-add-new" data-bs-toggle="modal"
+                            data-bs-target="#productModal">
+                            <span class="material-symbols-outlined align-middle fs-5 me-1">add</span>
+                            Thêm mới
+                        </button>
+                    </div>
+
+                    <!-- Dashboard stats -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="neu-card p-4">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Tổng sản phẩm</span>
+                                    <span class="material-symbols-outlined text-primary">inventory_2</span>
+                                </div>
+                                <h3 class="mt-3 mb-0" id="total-products">0</h3>
                             </div>
-                            <h3 class="mt-3 mb-0" id="total-products">0</h3>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="glass-panel p-4">
+                        <div class="table-responsive">
+                            <table class="table table-custom table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Hình ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Giá bán</th>
+                                        <th>Tồn kho</th>
+                                        <th class="text-end">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-product-list">
+                                    <!-- JS render here -->
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- Table -->
-                <div class="glass-panel p-4">
-                    <div class="table-responsive">
-                        <table class="table table-custom table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Hình ảnh</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Danh mục</th>
-                                    <th>Giá bán</th>
-                                    <th>Tồn kho</th>
-                                    <th class="text-end">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-product-list">
-                                <!-- JS render here -->
-                                <tr><td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td></tr>
-                            </tbody>
-                        </table>
+                <!-- SECTION: ĐẶT BÀN -->
+                <div id="section-reservations" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2 class="mb-1">Quản lý Đặt bàn</h2>
+                            <p class="text-muted mb-0">Xác nhận, hủy đơn đặt chỗ của khách</p>
+                        </div>
+                        <button class="btn btn-outline-secondary rounded-pill" id="btn-refresh-reservations">
+                            <span class="material-symbols-outlined align-middle fs-5 me-1">refresh</span>
+                            Làm mới
+                        </button>
+                    </div>
+
+                    <div class="glass-panel p-4">
+                        <div class="table-responsive">
+                            <table class="table table-custom table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Khách hàng</th>
+                                        <th>Thời gian</th>
+                                        <th>Bàn</th>
+                                        <th>Số người</th>
+                                        <th>Trạng thái</th>
+                                        <th class="text-end">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-reservation-list">
+                                    <!-- JS render here -->
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
             </div>
-
-            <!-- SECTION: ĐẶT BÀN -->
-            <div id="section-reservations" class="d-none">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2 class="mb-1">Quản lý Đặt bàn</h2>
-                        <p class="text-muted mb-0">Xác nhận, hủy đơn đặt chỗ của khách</p>
-                    </div>
-                    <button class="btn btn-outline-secondary rounded-pill" id="btn-refresh-reservations">
-                        <span class="material-symbols-outlined align-middle fs-5 me-1">refresh</span>
-                        Làm mới
-                    </button>
-                </div>
-
-                <div class="glass-panel p-4">
-                    <div class="table-responsive">
-                        <table class="table table-custom table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Khách hàng</th>
-                                    <th>Thời gian</th>
-                                    <th>Bàn</th>
-                                    <th>Số người</th>
-                                    <th>Trạng thái</th>
-                                    <th class="text-end">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-reservation-list">
-                                <!-- JS render here -->
-                                <tr><td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</div>
 
-<!-- Modal Form -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-panel" style="border-radius: 1rem;">
-            <div class="modal-header border-bottom-0 pb-0">
-                <h5 class="modal-title font-playfair fs-4 text-primary" id="modalTitle">Thêm sản phẩm mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="product-form" novalidate>
-                    <input type="hidden" id="product-id">
-                    
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">Tên sản phẩm *</label>
-                        <input type="text" class="form-control neu-input" id="name" placeholder="VD: Cà phê sữa đá">
-                        <div class="error-message" id="err-name">Vui lòng nhập tên sản phẩm.</div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small fw-bold">Giá bán (VNĐ) *</label>
-                            <input type="number" class="form-control neu-input" id="price" placeholder="VD: 45000">
-                            <div class="error-message" id="err-price">Giá bán phải lớn hơn 0.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small fw-bold">Danh mục *</label>
-                            <select class="form-select neu-input" id="category">
-                                <option value="">-- Chọn --</option>
-                                <!-- JS sẽ load danh mục vào đây (Resource 2) -->
-                            </select>
-                            <div class="error-message" id="err-category">Vui lòng chọn danh mục.</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">Link Hình ảnh (URL) *</label>
-                        <input type="url" class="form-control neu-input" id="image" placeholder="https://...">
-                        <div class="error-message" id="err-image">Vui lòng nhập URL hợp lệ.</div>
-                    </div>
+    <!-- Modal Form -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-panel" style="border-radius: 1rem;">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title font-playfair fs-4 text-primary" id="modalTitle">Thêm sản phẩm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="product-form" novalidate>
+                        <input type="hidden" id="product-id">
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small fw-bold">Tồn kho</label>
-                            <input type="number" class="form-control neu-input" id="stock" placeholder="VD: 50" value="0">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Tên sản phẩm *</label>
+                            <input type="text" class="form-control neu-input" id="name" placeholder="VD: Cà phê sữa đá">
+                            <div class="error-message" id="err-name">Vui lòng nhập tên sản phẩm.</div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-4">
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Giá bán (VNĐ) *</label>
+                                <input type="number" class="form-control neu-input" id="price" placeholder="VD: 45000">
+                                <div class="error-message" id="err-price">Giá bán phải lớn hơn 0.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Danh mục *</label>
+                                <select class="form-select neu-input" id="category">
+                                    <option value="">-- Chọn --</option>
+                                    <!-- JS sẽ load danh mục vào đây (Resource 2) -->
+                                </select>
+                                <div class="error-message" id="err-category">Vui lòng chọn danh mục.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Link Hình ảnh (URL) *</label>
+                            <input type="url" class="form-control neu-input" id="image" placeholder="https://...">
+                            <div class="error-message" id="err-image">Vui lòng nhập URL hợp lệ.</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Tồn kho</label>
+                                <input type="number" class="form-control neu-input" id="stock" placeholder="VD: 50"
+                                    value="0">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">Mô tả thêm</label>
                             <textarea class="form-control neu-input" id="description" rows="3"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer border-0 pb-4 pe-4">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill"
+                        data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" form="product-form" class="btn btn-primary-custom" id="btn-save">
                         <span class="spinner-border spinner-border-sm d-none" id="save-spinner"></span> Lưu Sản Phẩm
                     </button>
@@ -214,7 +239,7 @@
                 <div class="modal-body p-4">
                     <form id="reservation-form">
                         <input type="hidden" id="res-id">
-                        
+
                         <div class="mb-3">
                             <label class="form-label text-muted small fw-bold">Khách hàng</label>
                             <input type="text" class="form-control neu-input bg-light" id="res-name" readonly>
@@ -266,7 +291,8 @@
                     </form>
                 </div>
                 <div class="modal-footer border-0 pb-4 pe-4">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill"
+                        data-bs-dismiss="modal">Đóng</button>
                     <button type="submit" form="reservation-form" class="btn btn-accent-custom" id="btn-save-res">
                         <span class="spinner-border spinner-border-sm d-none" id="save-res-spinner"></span> Lưu Thay Đổi
                     </button>
@@ -281,4 +307,5 @@
     <script src="js/utils.js"></script>
     <script src="js/admin.js"></script>
 </body>
+
 </html>
