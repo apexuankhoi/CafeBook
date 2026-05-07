@@ -227,10 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Checkout
     document.getElementById('btn-checkout').addEventListener('click', () => {
         if (cart.length === 0) {
-            alert('Giỏ hàng đang trống!');
+            showToast('Thông báo', 'Giỏ hàng đang trống! Hãy chọn món trước khi thanh toán.', 'info');
             return;
         }
-        alert('Cảm ơn bạn đã đặt hàng! Tổng thanh toán: ' + cartTotalEl.textContent);
+        showToast('Cảm ơn', 'Đơn hàng của bạn đã được tiếp nhận. Chúc bạn ngon miệng!', 'success');
         cart = [];
         saveCart();
         cartOffcanvas.hide();
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const tableId = bookTableIdInput.value;
         if (!tableId) {
-            alert('Vui lòng chọn một bàn trống trên sơ đồ!');
+            showToast('Lưu ý', 'Vui lòng chọn một bàn còn trống trên sơ đồ!', 'info');
             return;
         }
 

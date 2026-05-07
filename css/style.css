@@ -315,3 +315,83 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   border-bottom: 1px solid var(--glass-border);
   vertical-align: middle;
 }
+
+/* ==========================================
+   CUSTOM TOAST NOTIFICATIONS
+   ========================================== */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-custom {
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    opacity: 0;
+}
+
+.toast-custom.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-custom.hide {
+    transform: translateX(120%);
+    opacity: 0;
+}
+
+.toast-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-success .toast-icon { background-color: #d1fae5; color: #059669; }
+.toast-error .toast-icon { background-color: #fee2e2; color: #dc2626; }
+.toast-info .toast-icon { background-color: #e0f2fe; color: #0284c7; }
+
+.toast-content {
+    flex-grow: 1;
+}
+
+.toast-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+    color: var(--primary-color);
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: var(--on-surface-variant);
+}
+
+.toast-close {
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.2s;
+}
+
+.toast-close:hover {
+    color: var(--on-surface-color);
+}

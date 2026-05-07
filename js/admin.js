@@ -94,12 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             api.deleteProduct(id)
                 .then(() => {
-                    alert('Đã xóa thành công!');
+                    showToast('Thành công', 'Đã xóa sản phẩm thành công!', 'success');
                     loadProducts();
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('Xóa thất bại!');
+                    showToast('Lỗi', 'Xóa sản phẩm thất bại!', 'error');
                     btn.innerHTML = '<span class="material-symbols-outlined fs-6 align-middle">delete</span>';
                     btn.disabled = false;
                 });
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 console.error(err);
-                alert('Không thể tải thông tin sản phẩm!');
+                showToast('Lỗi', 'Không thể tải thông tin sản phẩm!', 'error');
             });
     }
 
@@ -221,14 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cập nhật
             api.updateProduct(id, productData)
                 .then(() => {
-                    alert('Cập nhật thành công!');
+                    showToast('Thành công', 'Cập nhật sản phẩm thành công!', 'success');
                     form.reset();
                     productModal.hide();
                     loadProducts();
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('Lỗi cập nhật!');
+                    showToast('Lỗi', 'Cập nhật sản phẩm thất bại!', 'error');
                 })
                 .finally(() => {
                     saveSpinner.classList.add('d-none');
@@ -239,14 +239,14 @@ document.addEventListener('DOMContentLoaded', () => {
             productData.createdAt = new Date().toISOString();
             api.createProduct(productData)
                 .then(() => {
-                    alert('Thêm mới thành công!');
+                    showToast('Thành công', 'Thêm mới sản phẩm thành công!', 'success');
                     form.reset(); // Reset form sau khi thành công
                     productModal.hide();
                     loadProducts();
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('Lỗi thêm mới!');
+                    showToast('Lỗi', 'Thêm mới sản phẩm thất bại!', 'error');
                 })
                 .finally(() => {
                     saveSpinner.classList.add('d-none');
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 console.error(err);
-                alert("Không thể tải thông tin đơn đặt bàn!");
+                showToast('Lỗi', 'Không thể tải thông tin đơn đặt bàn!', 'error');
             });
     }
 
@@ -427,13 +427,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return api.updateReservation(id, currentRes);
             })
             .then(() => {
-                alert('Cập nhật đơn đặt bàn thành công!');
+                showToast('Thành công', 'Cập nhật đơn đặt bàn thành công!', 'success');
                 reservationModal.hide();
                 loadReservations();
             })
             .catch(err => {
                 console.error(err);
-                alert('Lỗi cập nhật đơn!');
+                showToast('Lỗi', 'Lỗi cập nhật đơn đặt bàn!', 'error');
             })
             .finally(() => {
                 btnSaveRes.disabled = false;
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 console.error(err);
-                alert('Lỗi cập nhật trạng thái!');
+                showToast('Lỗi', 'Lỗi cập nhật trạng thái đơn hàng!', 'error');
                 btnEl.innerHTML = originalHtml;
                 btnEl.disabled = false;
             });
