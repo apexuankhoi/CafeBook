@@ -23,7 +23,8 @@ const api = {
                     throw new Error('Lỗi khi tải danh sách sản phẩm');
                 }
                 return response.json();
-            });
+            })
+            .then(data => data.map(item => ({ ...item, id: item.id || item.Id })));
     },
 
     // GET single product by ID
@@ -34,7 +35,8 @@ const api = {
                     throw new Error('Lỗi khi tải sản phẩm');
                 }
                 return response.json();
-            });
+            })
+            .then(data => ({ ...data, id: data.id || data.Id }));
     },
 
     // POST create new product
@@ -51,7 +53,8 @@ const api = {
                     throw new Error('Lỗi khi thêm sản phẩm');
                 }
                 return response.json();
-            });
+            })
+            .then(data => ({ ...data, id: data.id || data.Id }));
     },
 
     // PUT update product
@@ -68,7 +71,8 @@ const api = {
                     throw new Error('Lỗi khi cập nhật sản phẩm');
                 }
                 return response.json();
-            });
+            })
+            .then(data => ({ ...data, id: data.id || data.Id }));
     },
 
     // DELETE: Xóa 1 sản phẩm theo ID
@@ -94,14 +98,18 @@ const api = {
     },
 
     getReservations: () => {
-        return fetch(`${BASE_URL}/reservations`).then(res => res.ok ? res.json() : []);
+        return fetch(`${BASE_URL}/reservations`)
+            .then(res => res.ok ? res.json() : [])
+            .then(data => data.map(item => ({ ...item, id: item.id || item.Id })));
     },
 
     getReservationById: (id) => {
-        return fetch(`${BASE_URL}/reservations/${id}`).then(res => {
-            if (!res.ok) throw new Error('Không tìm thấy đơn đặt bàn');
-            return res.json();
-        });
+        return fetch(`${BASE_URL}/reservations/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Không tìm thấy đơn đặt bàn');
+                return res.json();
+            })
+            .then(data => ({ ...data, id: data.id || data.Id }));
     },
 
     createReservation: (data) => {
@@ -112,7 +120,7 @@ const api = {
         }).then(res => {
             if (!res.ok) throw new Error('Lỗi đặt bàn');
             return res.json();
-        });
+        }).then(data => ({ ...data, id: data.id || data.Id }));
     },
 
     updateReservation: (id, data) => {
@@ -123,6 +131,6 @@ const api = {
         }).then(res => {
             if (!res.ok) throw new Error('Lỗi cập nhật đặt bàn');
             return res.json();
-        });
+        }).then(data => ({ ...data, id: data.id || data.Id }));
     }
 };
