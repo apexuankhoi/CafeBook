@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         api.getProducts()
             .then(products => {
+                // Đảm bảo mỗi sản phẩm đều có id duy nhất (phòng trường hợp MockAPI trả về thiếu id)
+                products.forEach((p, index) => {
+                    if (!p.id) p.id = p.name || `prod-${index}`;
+                });
                 allProducts = products;
                 renderProducts(products);
             })
