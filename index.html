@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaféBook - Trang Chủ</title>
-    
+    <title>Cafe Sinh yêu</title>
+
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
     <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <!-- TopNavBar -->
@@ -60,7 +66,8 @@
                 <div class="col-lg-6">
                     <div class="glass-panel p-4 p-md-5 shadow-lg">
                         <h1 class="display-4 fw-bold mb-4">Đặt bàn & Order cà phê chỉ trong 30 giây</h1>
-                        <p class="lead mb-5">Trải nghiệm không gian hoàn hảo cùng CaféBook với những tách cà phê tuyệt hảo.</p>
+                        <p class="lead mb-5">Trải nghiệm không gian hoàn hảo cùng CaféBook với những tách cà phê tuyệt
+                            hảo.</p>
                         <div class="d-flex flex-wrap gap-3">
                             <a href="#menu-section" class="btn btn-accent-custom btn-lg">Xem Menu</a>
                         </div>
@@ -82,14 +89,16 @@
                     <div class="neu-card p-4 text-center">
                         <span class="material-symbols-outlined fs-1 text-primary mb-3">local_cafe</span>
                         <h4 class="mb-3">Cà phê đặc sản</h4>
-                        <p class="text-muted">Hạt cà phê được chọn lọc kỹ lưỡng, rang mộc 100% mang đến hương vị nguyên bản.</p>
+                        <p class="text-muted">Hạt cà phê được chọn lọc kỹ lưỡng, rang mộc 100% mang đến hương vị nguyên
+                            bản.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="neu-card p-4 text-center">
                         <span class="material-symbols-outlined fs-1 text-primary mb-3">laptop_mac</span>
                         <h4 class="mb-3">Không gian làm việc</h4>
-                        <p class="text-muted">Yên tĩnh, wifi tốc độ cao và nhiều ổ cắm. Nơi lý tưởng để tập trung và sáng tạo.</p>
+                        <p class="text-muted">Yên tĩnh, wifi tốc độ cao và nhiều ổ cắm. Nơi lý tưởng để tập trung và
+                            sáng tạo.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -112,7 +121,7 @@
                     <p class="text-muted mt-2">Những hương vị được yêu thích nhất</p>
                 </div>
             </div>
-            
+
             <div class="d-flex gap-2 mb-4 overflow-auto pb-2" id="category-filters">
                 <button class="btn btn-primary-custom px-4 filter-btn active" data-category="all">Tất cả</button>
                 <!-- Các nút danh mục sẽ được render bằng JS (Resource 2) -->
@@ -124,7 +133,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            
+
             <div id="error-message" class="alert alert-danger d-none text-center" role="alert">
                 Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.
             </div>
@@ -138,12 +147,13 @@
     <!-- Booking Section -->
     <section class="py-5" id="booking-section">
         <div class="container my-5">
-            <div class="glass-panel p-4 p-md-5 position-relative overflow-hidden shadow-sm" style="border-radius: 2rem;">
+            <div class="glass-panel p-4 p-md-5 position-relative overflow-hidden shadow-sm"
+                style="border-radius: 2rem;">
                 <div class="text-center mb-5 position-relative z-1">
                     <h2 class="mb-2">Đặt bàn trực tuyến</h2>
                     <p class="text-muted">Chọn vị trí yêu thích trong không gian CaféBook</p>
                 </div>
-                
+
                 <div class="row g-5 position-relative z-1">
                     <!-- Form Selection -->
                     <div class="col-lg-5">
@@ -151,14 +161,16 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label text-muted small fw-bold">Tên của bạn *</label>
-                                    <input type="text" class="form-control neu-input" id="book-name" required placeholder="VD: Nguyễn Văn A">
+                                    <input type="text" class="form-control neu-input" id="book-name" required
+                                        placeholder="VD: Nguyễn Văn A">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label text-muted small fw-bold">Số điện thoại *</label>
-                                    <input type="tel" class="form-control neu-input" id="book-phone" required placeholder="VD: 0901234567">
+                                    <input type="tel" class="form-control neu-input" id="book-phone" required
+                                        placeholder="VD: 0901234567">
                                 </div>
                             </div>
-                            
+
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label text-muted small fw-bold">Ngày *</label>
@@ -191,7 +203,8 @@
                                     <span class="text-primary fw-bold fs-5" id="selected-table-display">Chưa chọn</span>
                                 </div>
                                 <input type="hidden" id="book-table-id" required>
-                                <button type="submit" class="btn btn-accent-custom w-100 py-3 fs-5" id="btn-submit-booking">Xác nhận đặt bàn</button>
+                                <button type="submit" class="btn btn-accent-custom w-100 py-3 fs-5"
+                                    id="btn-submit-booking">Xác nhận đặt bàn</button>
                                 <div id="booking-msg" class="mt-3 text-center" style="display: none;"></div>
                             </div>
                         </form>
@@ -202,19 +215,31 @@
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0 text-primary font-playfair">Sơ đồ bàn</h4>
                             <div class="d-flex gap-3 text-uppercase" style="font-size: 0.7rem; font-weight: bold;">
-                                <div class="d-flex align-items-center gap-1"><div class="rounded-1 border" style="width:12px;height:12px;background:#fff8f6;"></div> Trống</div>
-                                <div class="d-flex align-items-center gap-1"><div class="rounded-1 border" style="width:12px;height:12px;background:#e9e1d8;"></div> Đã đặt</div>
-                                <div class="d-flex align-items-center gap-1"><div class="rounded-1" style="width:12px;height:12px;background:#F5A623;"></div> Đang chọn</div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <div class="rounded-1 border" style="width:12px;height:12px;background:#fff8f6;">
+                                    </div> Trống
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <div class="rounded-1 border" style="width:12px;height:12px;background:#e9e1d8;">
+                                    </div> Đã đặt
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <div class="rounded-1" style="width:12px;height:12px;background:#F5A623;"></div>
+                                    Đang chọn
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="row g-2" id="floor-plan">
                             <!-- Tables will be rendered here by JS -->
-                            <div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>
+                            <div class="col-12 text-center py-5">
+                                <div class="spinner-border text-primary" role="status"></div>
+                            </div>
                         </div>
-                        
+
                         <div class="mt-4 p-3 rounded-3" style="background-color: rgba(49, 23, 12, 0.05);">
-                            <p class="text-muted small mb-0 fst-italic">* Bấm vào một bàn trống trên sơ đồ để chọn. Các bàn xám mờ đã được đặt trong ngày/giờ này.</p>
+                            <p class="text-muted small mb-0 fst-italic">* Bấm vào một bàn trống trên sơ đồ để chọn. Các
+                                bàn xám mờ đã được đặt trong ngày/giờ này.</p>
                         </div>
                     </div>
                 </div>
@@ -283,7 +308,7 @@
             <div id="cart-items" class="flex-grow-1 overflow-auto pe-2">
                 <!-- Items will be rendered here by JS -->
             </div>
-            
+
             <div class="mt-auto border-top pt-3 bg-white p-3 rounded-3 shadow-sm mt-3">
                 <div class="d-flex justify-content-between mb-3">
                     <span class="text-muted fw-bold">Tổng tiền:</span>
@@ -301,4 +326,5 @@
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
