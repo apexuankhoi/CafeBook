@@ -1,12 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Các biến DOM để thao tác giao diện
     const productListEl = document.getElementById('product-list');
     const loadingSpinner = document.getElementById('loading-spinner');
     const errorMessage = document.getElementById('error-message');
     const categoryFilters = document.querySelectorAll('.filter-btn');
 
+    // Lưu trữ tạm danh sách sản phẩm lấy từ API để tiện tìm kiếm & lọc
     let allProducts = [];
 
-    // Lấy dữ liệu sản phẩm từ API
+    /**
+     * Hàm gọi API lấy danh sách đồ uống (products)
+     * Có hiển thị hiệu ứng Loading và tắt Loading sau khi tải xong.
+     */
     function fetchAndRenderProducts() {
         loadingSpinner.style.display = 'flex';
         errorMessage.classList.add('d-none');
@@ -26,7 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Hiển thị danh sách sản phẩm lên HTML
+    /**
+     * Hàm render danh sách sản phẩm lên giao diện HTML.
+     * Sử dụng DOM Manipulation để tạo các thẻ <div> chứa giao diện món.
+     */
     function renderProducts(products) {
         productListEl.innerHTML = '';
         
@@ -73,13 +81,159 @@ document.addEventListener('DOMContentLoaded', () => {
         // Thêm sự kiện cho nút thêm vào giỏ hàng
         const addBtns = document.querySelectorAll('.add-to-cart-btn');
         addBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Thao tác DOM cơ bản
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const id = this.getAttribute('data-id');
-                alert(`Đã thêm sản phẩm ID: ${id} vào giỏ hàng!`);
+                const product = allProducts.find(p => String(p.id) === String(id));
+                if (product) {
+                    try {
+                        addToCart(product);
+                        // Hiệu ứng thêm vào giỏ
+                        const originalHtml = this.innerHTML;
+                        this.innerHTML = '<span class="material-symbols-outlined fs-5">check</span>';
+                        this.classList.add('btn-success', 'text-white');
+                        setTimeout(() => {
+                            this.innerHTML = originalHtml;
+                            this.classList.remove('btn-success', 'text-white');
+                        }, 1000);
+                    } catch (err) {
+                        console.error('Lỗi khi thêm vào giỏ:', err);
+                    }
+                }
             });
         });
     }
+
+    // ==========================================
+    // TÍNH NĂNG GIỎ HÀNG (CART)
+    // ==========================================
+    let cart = [];
+    try {
+        cart = JSON.parse(localStorage.getItem('cafe_cart')) || [];
+        if (!Array.isArray(cart)) cart = [];
+    } catch (e) {
+        cart = [];
+    }
+    
+    const cartOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartOffcanvas'));
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    function saveCart() {
+        localStorage.setItem('cafe_cart', JSON.stringify(cart));
+        updateCartUI();
+    }
+
+    function addToCart(product) {
+        const existingItem = cart.find(item => item.id === product.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
+        saveCart();
+    }
+
+    function updateQuantity(id, delta) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            saveCart();
+        }
+    }
+
+    function updateCartUI() {
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        let count = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = `
+                <div class="text-center text-muted py-5 mt-5">
+                    <span class="material-symbols-outlined fs-1 mb-3 opacity-50">shopping_basket</span>
+                    <p>Giỏ hàng trống</p>
+                    <button class="btn btn-outline-primary rounded-pill mt-2" data-bs-dismiss="offcanvas">Tiếp tục chọn món</button>
+                </div>
+            `;
+        } else {
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+
+                const div = document.createElement('div');
+                div.className = 'd-flex align-items-center gap-3 bg-white p-2 rounded-3 shadow-sm mb-2';
+                div.innerHTML = `
+                    <img src="${item.image || 'https://via.placeholder.com/100'}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <div class="fw-bold text-dark text-truncate" style="max-width: 150px;">${item.name}</div>
+                        <div class="text-primary fw-bold small">${formatCurrency(item.price)}</div>
+                    </div>
+                    <div class="d-flex align-items-center bg-light rounded-pill px-2 py-1">
+                        <button class="btn btn-sm btn-link text-dark p-0 text-decoration-none btn-decrease" data-id="${item.id}">
+                            <span class="material-symbols-outlined fs-6 align-middle">remove</span>
+                        </button>
+                        <span class="mx-2 fw-bold small" style="width: 20px; text-align: center;">${item.quantity}</span>
+                        <button class="btn btn-sm btn-link text-dark p-0 text-decoration-none btn-increase" data-id="${item.id}">
+                            <span class="material-symbols-outlined fs-6 align-middle">add</span>
+                        </button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(div);
+            });
+
+            // Gắn sự kiện tăng giảm
+            cartItemsContainer.querySelectorAll('.btn-decrease').forEach(btn => {
+                btn.addEventListener('click', function() { updateQuantity(this.getAttribute('data-id'), -1); });
+            });
+            cartItemsContainer.querySelectorAll('.btn-increase').forEach(btn => {
+                btn.addEventListener('click', function() { updateQuantity(this.getAttribute('data-id'), 1); });
+            });
+        }
+
+        cartTotalEl.textContent = formatCurrency(total);
+        
+        // Cập nhật số lượng trên icon giỏ hàng
+        let badge = document.getElementById('cart-badge');
+        if (count > 0) {
+            if (!badge) {
+                const cartBtn = document.getElementById('cart-btn');
+                cartBtn.style.position = 'relative';
+                badge = document.createElement('span');
+                badge.id = 'cart-badge';
+                badge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
+                cartBtn.appendChild(badge);
+            }
+            badge.textContent = count;
+        } else if (badge) {
+            badge.remove();
+        }
+    }
+
+    // Checkout
+    document.getElementById('btn-checkout').addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert('Giỏ hàng đang trống!');
+            return;
+        }
+        alert('Cảm ơn bạn đã đặt hàng! Tổng thanh toán: ' + cartTotalEl.textContent);
+        cart = [];
+        saveCart();
+        cartOffcanvas.hide();
+    });
+
+    // Khởi tạo giao diện giỏ hàng ban đầu
+    updateCartUI();
 
     // Render filter buttons dynamically
     function fetchAndRenderCategories() {
@@ -133,7 +287,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchAndRenderProducts();
 
     // ==========================================
-    // TÍNH NĂNG ĐẶT BÀN (TABLE RESERVATION)
+    // MODULE ĐẶT BÀN TRỰC TUYẾN (TABLE RESERVATION)
+    // - Hiển thị sơ đồ bàn (Trống/Đã đặt)
+    // - Cho phép chọn ngày, giờ và Submit lên MockAPI
     // ==========================================
     const floorPlan = document.getElementById('floor-plan');
     const bookDate = document.getElementById('book-date');
@@ -143,21 +299,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookingForm = document.getElementById('booking-form');
     const bookingMsg = document.getElementById('booking-msg');
 
-    // Set default date to today
+    // Mặc định chọn ngày hiện tại
     const today = new Date().toISOString().split('T')[0];
     bookDate.value = today;
     bookDate.min = today;
 
-    // Hardcode 15 tables for the demo since floor plan is fixed
+    // Giả lập danh sách 15 bàn cố định của quán
     const ALL_TABLES = Array.from({length: 15}, (_, i) => ({
         id: `T${i+1}`,
         name: `T${i+1}`,
-        capacity: (i % 3 === 0) ? 4 : 2 // Mix of 2-seat and 4-seat tables
+        capacity: (i % 3 === 0) ? 4 : 2 // Mix bàn 2 và 4 chỗ
     }));
 
+    // Lưu trữ đơn đặt bàn hiện có để check trùng
     let currentReservations = [];
 
-    // Fetch reservations to block tables
+    /**
+     * Gọi API lấy danh sách toàn bộ các đơn Đặt bàn để từ đó
+     * tính toán xem bàn nào đang bận, bàn nào trống.
+     */
     function loadReservationsForFloorPlan() {
         floorPlan.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
         
@@ -233,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Re-render when date/time changes
+    // Lắng nghe thay đổi Ngày/Giờ để cập nhật lại trạng thái Bàn
     bookDate.addEventListener('change', () => {
         bookTableIdInput.value = '';
         selectedTableDisplay.textContent = 'Chưa chọn';
@@ -245,7 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFloorPlan();
     });
 
-    // Handle form submit
+    /**
+     * Hàm xử lý khi Form Đặt Bàn được Submit
+     * Lấy dữ liệu -> Gọi API POST -> Thông báo thành công
+     */
     bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const tableId = bookTableIdInput.value;
@@ -292,19 +455,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Load initial reservations
+    // Lần tải đầu tiên
     loadReservationsForFloorPlan();
 
     // ==========================================
-    // Yêu cầu sử dụng jQuery
+    // YÊU CẦU SỬ DỤNG JQUERY
+    // - Dùng jQuery cho 2 nghiệp vụ:
+    // 1. Mở Offcanvas Giỏ Hàng khi click biểu tượng
+    // 2. Form Nhận bản tin khuyến mãi (Ajax)
     // ==========================================
     $(document).ready(function() {
-        // Sự kiện 1: jQuery .click() và .slideDown() cho nút Giỏ hàng trên Nav
+        // Sự kiện 1: jQuery .click() và .fadeOut() / .fadeIn()
         $('#cart-btn').click(function(e) {
             e.preventDefault();
             // Demo hiệu ứng jQuery
             $(this).fadeOut(100).fadeIn(100);
-            alert("Tính năng giỏ hàng đang được cập nhật!");
+            cartOffcanvas.show(); // Mở Offcanvas giỏ hàng thay vì alert
         });
 
         // Sự kiện 2: jQuery .on() cho form Newsletter và $.ajax()

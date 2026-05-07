@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaféBook - Quản trị</title>
     
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <!-- Material Symbols -->
@@ -185,28 +188,97 @@
                     </div>
                     
                     <div class="mb-4">
-                        <label class="form-label text-muted small fw-bold">Mô tả</label>
-                        <textarea class="form-control neu-input" id="description" rows="2" placeholder="Mô tả ngắn..."></textarea>
-                    </div>
-                    
-                    <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary-custom" id="btn-save">
-                            <span class="spinner-border spinner-border-sm d-none me-2" id="save-spinner" role="status"></span>
-                            Lưu thông tin
-                        </button>
-                    </div>
-                </form>
+                            <label class="form-label text-muted small fw-bold">Mô tả thêm</label>
+                            <textarea class="form-control neu-input" id="description" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pb-4 pe-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" form="product-form" class="btn btn-primary-custom" id="btn-save">
+                        <span class="spinner-border spinner-border-sm d-none" id="save-spinner"></span> Lưu Sản Phẩm
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/api.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/admin.js"></script>
+    <!-- Modal Cập nhật Đặt Bàn -->
+    <div class="modal fade" id="reservationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 1.5rem;">
+                <div class="modal-header border-0 pb-0 pt-4 px-4">
+                    <h5 class="modal-title font-playfair fw-bold fs-4 text-primary">Cập nhật Đơn Đặt Bàn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="reservation-form">
+                        <input type="hidden" id="res-id">
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Khách hàng</label>
+                            <input type="text" class="form-control neu-input bg-light" id="res-name" readonly>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Ngày *</label>
+                                <input type="date" class="form-control neu-input" id="res-date" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Giờ *</label>
+                                <select class="form-select neu-input" id="res-time" required>
+                                    <option value="08:00">08:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="19:00">19:00</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Bàn *</label>
+                                <select class="form-select neu-input" id="res-table" required>
+                                    <!-- Sẽ gen T1 tới T15 bằng JS -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Số người</label>
+                                <select class="form-select neu-input" id="res-guests">
+                                    <option value="1">1 Người</option>
+                                    <option value="2">2 Người</option>
+                                    <option value="4">3 - 4 Người</option>
+                                    <option value="6">5+ Người</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Trạng thái *</label>
+                            <select class="form-select neu-input" id="res-status" required>
+                                <option value="Pending">Chờ xác nhận</option>
+                                <option value="Confirmed">Đã xác nhận</option>
+                                <option value="Cancelled">Đã hủy</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pb-4 pe-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" form="reservation-form" class="btn btn-accent-custom" id="btn-save-res">
+                        <span class="spinner-border spinner-border-sm d-none" id="save-res-spinner"></span> Lưu Thay Đổi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

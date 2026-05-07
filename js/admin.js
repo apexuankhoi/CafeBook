@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Các biến DOM để thao tác giao diện quản lý
     const adminProductList = document.getElementById('admin-product-list');
     const totalProductsEl = document.getElementById('total-products');
     const form = document.getElementById('product-form');
@@ -7,9 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSave = document.getElementById('btn-save');
     const saveSpinner = document.getElementById('save-spinner');
 
-    let isEditMode = false;
+    let isEditMode = false; // Biến cờ (flag) để phân biệt giữa Thêm Mới và Cập Nhật
 
-    // Load Categories (Resource 2 - Nâng cao)
+    /**
+     * Tải danh sách Danh mục (Categories) từ API (Resource 2)
+     * Đổ dữ liệu vào thẻ <select> trong form thêm/sửa sản phẩm
+     */
     function loadCategories() {
         const categorySelect = document.getElementById('category');
         api.getCategories()
@@ -24,7 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error("Lỗi tải danh mục:", err));
     }
 
-    // Load Products
+    }
+
+    /**
+     * Lấy dữ liệu toàn bộ sản phẩm và hiển thị lên Bảng (Table) Quản trị
+     */
     function loadProducts() {
         adminProductList.innerHTML = '<tr><td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td></tr>';
         
@@ -127,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Nút thêm mới reset form
+    // Nút thêm mới hiển thị Modal trống
     document.getElementById('btn-add-new').addEventListener('click', () => {
         isEditMode = false;
         modalTitle.textContent = 'Thêm sản phẩm mới';
@@ -136,7 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
         resetErrors();
     });
 
-    // Form Validation Functions
+    // ==========================================
+    // VALIDATE FORM (YÊU CẦU BÀI TẬP)
+    // - Bắt lỗi form bằng JS thuần, hiển thị thông báo dưới ô nhập
+    // ==========================================
     function resetErrors() {
         document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.neu-input').forEach(el => el.classList.remove('is-invalid'));
@@ -246,8 +257,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    });
+
     // ==========================================
-    // QUẢN LÝ ĐẶT BÀN (RESERVATIONS)
+    // MODULE QUẢN LÝ ĐẶT BÀN (RESERVATIONS)
+    // - Chuyển đổi tab hiển thị
+    // - Lấy danh sách đặt bàn và thao tác Trạng thái, Chỉnh sửa thông tin
     // ==========================================
     const navProducts = document.getElementById('nav-products');
     const navReservations = document.getElementById('nav-reservations');
@@ -255,6 +270,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const sectionReservations = document.getElementById('section-reservations');
     const adminReservationList = document.getElementById('admin-reservation-list');
     const btnRefreshReservations = document.getElementById('btn-refresh-reservations');
+    
+    // Elements for Reservation Modal
+    const reservationModal = new bootstrap.Modal(document.getElementById('reservationModal'));
+    const resForm = document.getElementById('reservation-form');
+    const resTableSelect = document.getElementById('res-table');
+    const btnSaveRes = document.getElementById('btn-save-res');
+    const saveResSpinner = document.getElementById('save-res-spinner');
+
+    // Init table options T1-T15
+    for(let i=1; i<=15; i++) {
+        const opt = document.createElement('option');
+        opt.value = `T${i}`;
+        opt.textContent = `Bàn T${i}`;
+        resTableSelect.appendChild(opt);
+    }
 
     // Chuyển tab
     navProducts.addEventListener('click', (e) => {
@@ -329,12 +359,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${r.guests} người</td>
                 <td>${statusHtml}</td>
                 <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary btn-edit-res me-1" data-id="${r.id}" title="Chỉnh sửa">
+                        <span class="material-symbols-outlined fs-6 align-middle">edit</span>
+                    </button>
                     ${r.status === 'Pending' ? `
                         <button class="btn btn-sm btn-outline-success btn-confirm-res me-1" data-id="${r.id}" title="Xác nhận">
                             <span class="material-symbols-outlined fs-6 align-middle">check_circle</span>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger btn-cancel-res" data-id="${r.id}" title="Hủy">
-                            <span class="material-symbols-outlined fs-6 align-middle">cancel</span>
                         </button>
                     ` : ''}
                 </td>
@@ -343,27 +373,86 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Add events
+        document.querySelectorAll('.btn-edit-res').forEach(btn => {
+            btn.addEventListener('click', function() {
+                openEditReservation(this.getAttribute('data-id'));
+            });
+        });
         document.querySelectorAll('.btn-confirm-res').forEach(btn => {
             btn.addEventListener('click', function() {
                 updateResStatus(this.getAttribute('data-id'), 'Confirmed', this);
             });
         });
-        document.querySelectorAll('.btn-cancel-res').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if(confirm('Bạn có chắc muốn hủy đơn này?')) {
-                    updateResStatus(this.getAttribute('data-id'), 'Cancelled', this);
-                }
-            });
-        });
     }
+
+    function openEditReservation(id) {
+        api.getReservationById(id)
+            .then(res => {
+                document.getElementById('res-id').value = res.id;
+                document.getElementById('res-name').value = `${res.customerName} - ${res.phone}`;
+                document.getElementById('res-date').value = res.date;
+                document.getElementById('res-time').value = res.time;
+                document.getElementById('res-table').value = res.tableId;
+                document.getElementById('res-guests').value = res.guests;
+                document.getElementById('res-status').value = res.status;
+                
+                reservationModal.show();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Không thể tải thông tin đơn đặt bàn!");
+            });
+    }
+
+    // Handle Form Submit for Reservation
+    resForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const id = document.getElementById('res-id').value;
+        const newStatus = document.getElementById('res-status').value;
+        const newDate = document.getElementById('res-date').value;
+        const newTime = document.getElementById('res-time').value;
+        const newTable = document.getElementById('res-table').value;
+        const newGuests = document.getElementById('res-guests').value;
+
+        btnSaveRes.disabled = true;
+        saveResSpinner.classList.remove('d-none');
+
+        // Fetch current to keep other fields intact, then update
+        api.getReservationById(id)
+            .then(currentRes => {
+                currentRes.status = newStatus;
+                currentRes.date = newDate;
+                currentRes.time = newTime;
+                currentRes.tableId = newTable;
+                currentRes.guests = newGuests;
+                return api.updateReservation(id, currentRes);
+            })
+            .then(() => {
+                alert('Cập nhật đơn đặt bàn thành công!');
+                reservationModal.hide();
+                loadReservations();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Lỗi cập nhật đơn!');
+            })
+            .finally(() => {
+                btnSaveRes.disabled = false;
+                saveResSpinner.classList.add('d-none');
+            });
+    });
 
     function updateResStatus(id, newStatus, btnEl) {
         const originalHtml = btnEl.innerHTML;
         btnEl.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
         btnEl.disabled = true;
 
-        // Fetch current to keep other fields intact, then update status
-        api.updateReservation(id, { status: newStatus })
+        api.getReservationById(id)
+            .then(currentRes => {
+                currentRes.status = newStatus;
+                return api.updateReservation(id, currentRes);
+            })
             .then(() => {
                 loadReservations();
             })
