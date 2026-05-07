@@ -4,14 +4,14 @@ const BASE_URL = 'https://69fbe478fce564e25916f8c0.mockapi.io/api/cafeshop';
 // Object api chứa tất cả các hàm gọi HTTP Request (GET, POST, PUT, DELETE)
 // Sử dụng Fetch API và Promise để xử lý bất đồng bộ
 const api = {
-    // GET: Lấy danh sách danh mục (Resource 2 - Phần nâng cao)
+    // GET: Lấy danh sách danh mục (Tự động lấy từ danh sách sản phẩm)
     getCategories: () => {
-        return fetch(`${BASE_URL}/categories`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Lỗi khi tải danh mục');
-                }
-                return response.json();
+        return fetch(`${BASE_URL}/products`)
+            .then(res => res.ok ? res.json() : [])
+            .then(products => {
+                // Lọc danh mục duy nhất từ các sản phẩm hiện có
+                const uniqueCats = [...new Set(products.map(p => p.category).filter(c => c))];
+                return uniqueCats.map((cat, index) => ({ id: String(index + 1), name: cat }));
             });
     },
 

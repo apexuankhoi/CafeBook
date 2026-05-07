@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error("Lỗi tải danh mục:", err));
     }
 
-    }
-
     /**
      * Lấy dữ liệu toàn bộ sản phẩm và hiển thị lên Bảng (Table) Quản trị
      */
@@ -257,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    });
+
 
     // ==========================================
     // MODULE QUẢN LÝ ĐẶT BÀN (RESERVATIONS)
