@@ -87,23 +87,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Delete
     function handleDeleteClick(e) {
         const id = e.currentTarget.getAttribute('data-id');
-        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không? Thao tác không thể hoàn tác.')) {
-            const btn = e.currentTarget;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>';
-            btn.disabled = true;
+        
+        showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa sản phẩm này không? Thao tác không thể hoàn tác.').then(isConfirmed => {
+            if (isConfirmed) {
+                const btn = e.currentTarget;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>';
+                btn.disabled = true;
 
-            api.deleteProduct(id)
-                .then(() => {
-                    showToast('Thành công', 'Đã xóa sản phẩm thành công!', 'success');
-                    loadProducts();
-                })
-                .catch(err => {
-                    console.error(err);
-                    showToast('Lỗi', 'Xóa sản phẩm thất bại!', 'error');
-                    btn.innerHTML = '<span class="material-symbols-outlined fs-6 align-middle">delete</span>';
-                    btn.disabled = false;
-                });
-        }
+                api.deleteProduct(id)
+                    .then(() => {
+                        showToast('Thành công', 'Đã xóa sản phẩm thành công!', 'success');
+                        loadProducts();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showToast('Lỗi', 'Xóa sản phẩm thất bại!', 'error');
+                        btn.innerHTML = '<span class="material-symbols-outlined fs-6 align-middle">delete</span>';
+                        btn.disabled = false;
+                    });
+            }
+        });
     }
 
     // Handle Edit

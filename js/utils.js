@@ -83,3 +83,54 @@ function closeToast(toast) {
         toast.remove();
     });
 }
+
+/**
+ * Hàm hiển thị hộp thoại xác nhận (Confirm Dialog) thay thế cho confirm() mặc định
+ * @param {string} title - Tiêu đề
+ * @param {string} message - Nội dung câu hỏi
+ * @returns {Promise<boolean>} - Trả về true nếu Đồng ý, false nếu Hủy
+ */
+function showConfirm(title, message) {
+    return new Promise((resolve) => {
+        const oldModal = document.getElementById('custom-confirm-modal');
+        if (oldModal) {
+            oldModal.remove();
+        }
+
+        const modalHtml = `
+            <div class="modal fade" id="custom-confirm-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg" style="border-radius: 1.5rem;">
+                        <div class="modal-header border-0 pb-0 pt-4 px-4">
+                            <h5 class="modal-title font-playfair fw-bold fs-4 text-primary">${title}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <p class="mb-0 text-muted" style="font-size: 1.1rem;">${message}</p>
+                        </div>
+                        <div class="modal-footer border-0 pb-4 pe-4">
+                            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal" id="btn-confirm-cancel">Hủy</button>
+                            <button type="button" class="btn btn-danger rounded-pill px-4" id="btn-confirm-ok">Đồng ý</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        const modalElement = document.getElementById('custom-confirm-modal');
+        const modalInstance = new bootstrap.Modal(modalElement);
+
+        document.getElementById('btn-confirm-ok').addEventListener('click', () => {
+            modalInstance.hide();
+            resolve(true);
+        });
+
+        modalElement.addEventListener('hidden.bs.modal', () => {
+            resolve(false);
+            modalElement.remove();
+        });
+
+        modalInstance.show();
+    });
+}
