@@ -33,7 +33,10 @@
 
     <div class="container-fluid p-0">
         <div class="row g-0">
-            <!-- Sidebar -->
+            <!-- 
+              Sidebar: Thanh menu điều hướng bên trái dành riêng cho trang Quản trị (Admin)
+              - Chứa các link chuyển đổi giữa màn hình Quản lý Sản phẩm và Quản lý Đặt bàn
+            -->
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 admin-sidebar d-flex flex-column">
                 <div class="p-3 d-flex align-items-center gap-2 mt-3 mb-4">
                     <span class="material-symbols-outlined fs-2 text-primary">local_cafe</span>
@@ -67,10 +70,13 @@
                 </ul>
             </div>
 
-            <!-- Main content -->
+            <!-- 
+              Main content: Khu vực chính bên phải hiển thị dữ liệu 
+              - Mặc định sẽ hiển thị màn hình Sản phẩm, ẩn màn hình Đặt bàn
+            -->
             <div class="col py-4 px-4">
 
-                <!-- SECTION: SẢN PHẨM -->
+                <!-- SECTION: SẢN PHẨM (Nơi thao tác CRUD cho đồ uống/bánh) -->
                 <div id="section-products">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
@@ -122,7 +128,7 @@
                     </div>
                 </div>
 
-                <!-- SECTION: ĐẶT BÀN -->
+                <!-- SECTION: ĐẶT BÀN (Nơi quản lý danh sách khách hàng đã đặt bàn trước) -->
                 <div id="section-reservations" class="d-none">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
@@ -163,7 +169,11 @@
         </div>
     </div>
 
-    <!-- Modal Form -->
+    <!-- 
+      Modal (Hộp thoại) Thêm/Sửa Sản Phẩm: 
+      - Đây là một popup HTML ẩn, chỉ hiện ra khi bấm nút "Thêm mới" hoặc icon Sửa.
+      - Sử dụng Form nhập liệu cho tên, giá, ảnh, v.v.
+    -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-panel" style="border-radius: 1rem;">
@@ -228,7 +238,10 @@
         </div>
     </div>
 
-    <!-- Modal Cập nhật Đặt Bàn -->
+    <!-- 
+      Modal (Hộp thoại) Cập nhật Đặt Bàn: 
+      - Dùng để admin xác nhận đơn, đổi giờ, đổi trạng thái của khách.
+    -->
     <div class="modal fade" id="reservationModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg" style="border-radius: 1.5rem;">

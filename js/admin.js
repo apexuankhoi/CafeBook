@@ -32,29 +32,39 @@ document.addEventListener('DOMContentLoaded', () => {
      * Lấy dữ liệu toàn bộ sản phẩm và hiển thị lên Bảng (Table) Quản trị
      */
     function loadProducts() {
+        // 1. Hiển thị thông báo "Đang tải dữ liệu..." lên bảng để người dùng biết hệ thống đang làm việc
         adminProductList.innerHTML = '<tr><td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td></tr>';
         
+        // 2. Gọi API để lấy danh sách toàn bộ sản phẩm từ database
         api.getProducts()
             .then(products => {
+                // 3. Nếu thành công, cập nhật tổng số sản phẩm hiển thị trên card thống kê
                 totalProductsEl.textContent = products.length;
+                // 4. Gọi hàm renderAdminTable để bắt đầu tạo ra các hàng (tr) chứa thông tin sản phẩm
                 renderAdminTable(products);
             })
             .catch(err => {
+                // 5. Nếu xảy ra lỗi mạng hoặc server lỗi, in lỗi ra và hiển thị chữ đỏ lên bảng
                 console.error(err);
                 adminProductList.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Lỗi kết nối máy chủ! Vui lòng kiểm tra lại.</td></tr>';
             });
     }
 
-    // Render Table
+    // Render Table (Hàm phụ trách việc tạo mã HTML cho từng hàng trong bảng)
     function renderAdminTable(products) {
+        // Xóa sạch nội dung cũ của bảng
         adminProductList.innerHTML = '';
+        
+        // Kiểm tra nếu mảng sản phẩm rỗng thì thông báo
         if (products.length === 0) {
             adminProductList.innerHTML = '<tr><td colspan="6" class="text-center py-4">Chưa có sản phẩm.</td></tr>';
             return;
         }
 
+        // Lặp qua từng sản phẩm trong mảng để tạo thẻ <tr> (Table Row)
         products.forEach(p => {
-            const tr = document.createElement('tr');
+            const tr = document.createElement('tr'); // Tạo mới một thẻ <tr> bằng JS
+            // Định nghĩa nội dung HTML bên trong hàng (gồm ảnh, tên, giá, danh mục, tồn kho và các nút thao tác)
             tr.innerHTML = `
                 <td>
                     <img src="${p.image}" alt="${p.name}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
@@ -84,24 +94,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Handle Delete
+    // Handle Delete (Xử lý sự kiện khi bấm nút Xóa Sản Phẩm)
     function handleDeleteClick(e) {
+        // 1. Lấy ID của sản phẩm từ thuộc tính data-id được gán trên nút Xóa
         const id = e.currentTarget.getAttribute('data-id');
         
-        showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa sản phẩm này không? Thao tác không thể hoàn tác.').then(isConfirmed => {
+        // 2. Gọi hàm showConfirm (vừa được tạo trong utils.js) để hỏi ý kiến người dùng
+        showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa sản phẩm này không? Thao tác không thể hoàn tác.')
+        .then(isConfirmed => {
+            // 3. isConfirmed sẽ mang giá trị true nếu người dùng bấm "Đồng ý"
             if (isConfirmed) {
+                // Lấy ra nút hiện tại người dùng vừa bấm
                 const btn = e.currentTarget;
+                // Hiển thị hiệu ứng xoay tròn (loading) trên nút để báo hiệu đang xử lý
                 btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>';
+                // Vô hiệu hóa nút (không cho bấm 2 lần liên tiếp)
                 btn.disabled = true;
 
+                // 4. Gọi API để thực hiện xóa sản phẩm khỏi cơ sở dữ liệu (MockAPI)
                 api.deleteProduct(id)
                     .then(() => {
+                        // Nếu xóa thành công: hiện thông báo Toast màu xanh
                         showToast('Thành công', 'Đã xóa sản phẩm thành công!', 'success');
+                        // Sau đó load lại danh sách sản phẩm để cập nhật lại bảng
                         loadProducts();
                     })
                     .catch(err => {
+                        // Nếu bị lỗi (ví dụ rớt mạng): in lỗi ra console và báo Toast màu đỏ
                         console.error(err);
                         showToast('Lỗi', 'Xóa sản phẩm thất bại!', 'error');
+                        // Khôi phục lại icon thùng rác và cho phép bấm lại
                         btn.innerHTML = '<span class="material-symbols-outlined fs-6 align-middle">delete</span>';
                         btn.disabled = false;
                     });

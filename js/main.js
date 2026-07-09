@@ -9,53 +9,67 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProducts = [];
 
     /**
-     * Hàm gọi API lấy danh sách đồ uống (products)
-     * Có hiển thị hiệu ứng Loading và tắt Loading sau khi tải xong.
+     * Hàm gọi API lấy danh sách đồ uống (products) từ MockAPI thông qua đối tượng api
+     * Có hiển thị hiệu ứng Loading và ẩn hiệu ứng đi sau khi tải xong dữ liệu.
      */
     function fetchAndRenderProducts() {
+        // 1. Hiển thị vòng xoay loading để báo hiệu đang tải dữ liệu
         loadingSpinner.style.display = 'flex';
+        // 2. Ẩn thông báo lỗi đi (đề phòng trước đó có lỗi)
         errorMessage.classList.add('d-none');
+        // 3. Xóa trắng danh sách sản phẩm hiện tại trên giao diện
         productListEl.innerHTML = '';
 
+        // 4. Gọi hàm getProducts() từ đối tượng api (đã được định nghĩa trong api.js)
         api.getProducts()
             .then(products => {
-                // Đảm bảo mỗi sản phẩm đều có id duy nhất (phòng trường hợp MockAPI trả về thiếu id)
+                // 5. Kiểm tra và đảm bảo mỗi sản phẩm đều có id duy nhất (phòng trường hợp MockAPI lỗi thiếu id)
                 products.forEach((p, index) => {
                     if (!p.id) p.id = p.name || `prod-${index}`;
                 });
+                // 6. Lưu danh sách vừa lấy được vào biến toàn cục allProducts để dùng cho tính năng tìm kiếm/lọc
                 allProducts = products;
+                // 7. Gọi hàm renderProducts để vẽ HTML cho các sản phẩm lên màn hình
                 renderProducts(products);
             })
             .catch(err => {
+                // Nếu quá trình gọi API bị lỗi (mạng lỗi, server chết...), in lỗi ra console
                 console.error(err);
+                // Hiển thị dòng chữ thông báo lỗi màu đỏ lên màn hình
                 errorMessage.classList.remove('d-none');
             })
             .finally(() => {
+                // finally() sẽ luôn được chạy dù API thành công hay lỗi, ở đây ta dùng để tắt vòng xoay loading
                 loadingSpinner.style.display = 'none';
             });
     }
 
     /**
      * Hàm render danh sách sản phẩm lên giao diện HTML.
-     * Sử dụng DOM Manipulation để tạo các thẻ <div> chứa giao diện món.
+     * Sử dụng DOM Manipulation (tạo các phần tử HTML qua JS) để hiển thị.
+     * @param {Array} products - Mảng chứa dữ liệu các sản phẩm cần hiển thị
      */
     function renderProducts(products) {
+        // Xóa trắng vùng chứa danh sách sản phẩm trước khi vẽ mới
         productListEl.innerHTML = '';
 
+        // Nếu mảng truyền vào rỗng (không có sản phẩm nào), hiển thị thông báo
         if (products.length === 0) {
             productListEl.innerHTML = '<div class="col-12 text-center text-muted py-5">Chưa có sản phẩm nào.</div>';
             return;
         }
 
-        // Cấu trúc điều khiển vòng lặp for
+        // Cấu trúc điều khiển vòng lặp for: Duyệt qua từng sản phẩm trong mảng
         for (let i = 0; i < products.length; i++) {
             const product = products[i];
 
-            // Xử lý huy hiệu (badge) bằng cấu trúc if/else
+            // Xử lý logic hiển thị huy hiệu (badge) bằng cấu trúc if/else
             let badgeHtml = '';
+            // Nếu sản phẩm có thuộc tính stock và số lượng tồn kho < 10, gán nhãn "Sắp hết"
             if (product.stock && product.stock < 10) {
                 badgeHtml = '<div class="badge-custom bg-danger">Sắp hết</div>';
-            } else if (i < 2) { // 2 sản phẩm đầu tiên coi như Best Seller
+            } else if (i < 2) { 
+                // Nếu là 2 sản phẩm hiển thị đầu tiên trên danh sách, gán nhãn "Best Seller"
                 badgeHtml = '<div class="badge-custom">Best Seller</div>';
             }
 
